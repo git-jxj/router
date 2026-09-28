@@ -236,10 +236,11 @@ pub mod utils {
                 return Err(ValidationError::OutOfRange {
                     parameter: "top_p".to_string(),
                     value: top_p.to_string(),
-                    min: format!("{} (exclusive)", constants::TOP_P_RANGE.0),
+                    min: constants::TOP_P_RANGE.0.to_string(),
                     max: constants::TOP_P_RANGE.1.to_string(),
                 });
             }
+            // Check the inclusive upper bound and reject NaN.
             validate_range(top_p, &constants::TOP_P_RANGE, "top_p")?;
         }
 
@@ -998,6 +999,8 @@ mod tests {
             // Test top_p range (0.0, 1.0]
             request.temperature = Some(1.0); // Reset
             request.top_p = Some(0.9);
+            assert!(request.validate().is_ok());
+            request.top_p = Some(1.0);
             assert!(request.validate().is_ok());
             request.top_p = Some(f32::EPSILON);
             assert!(request.validate().is_ok());
