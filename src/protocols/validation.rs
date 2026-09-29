@@ -14,7 +14,7 @@ pub mod constants {
     /// Temperature range: 0.0 to 2.0 (OpenAI spec)
     pub const TEMPERATURE_RANGE: (f32, f32) = (0.0, 2.0);
 
-    /// Top-p range: 0.0 to 1.0 (exclusive of 0.0)
+    /// Numeric bounds for top-p; validation rejects `0.0` separately.
     pub const TOP_P_RANGE: (f32, f32) = (0.0, 1.0);
 
     /// Presence penalty range: -2.0 to 2.0 (OpenAI spec)
